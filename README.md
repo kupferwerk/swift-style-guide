@@ -279,3 +279,72 @@ func <|< <A>(lhs: A, rhs: A) -> A
 ```
 
 _Rationale:_ Operators consist of punctuation characters, which can make them difficult to read when immediately followed by the punctuation for a type or value parameter list. Adding whitespace separates the two more clearly.
+
+#### Don't write Swift as Objective-C with new syntax
+
+Make use of features in swift to reduce boilerplate code.
+
+For example, to select elements of an array that pass a certain condition, instead of:
+
+```swift
+var filteredArray: [Int] = []
+
+for money in moneyArray {
+    if (money > 30) {
+      filteredArray += [money]
+    }
+}
+```
+
+use the `filter` method:
+
+```swift
+let filteredArray = moneyArray.filter({$0 > 30})
+```
+where {$0 > 30} is the supplied filter closure.
+
+Note that parameters are omitted using the default $0 parameter name and the return type is implicitly assumed to be Bool.
+
+
+To transform elements of an array, for example to convert an array of Integers to an array of Strings and append a suffix on each element, instead of:
+
+```swift
+var stringsArray: [String] = [] // Note that we have to specify the type of the array or else we'll get an type error
+
+for money in moneyArray {
+    stringsArray += "\(money)€"
+}
+```
+use the `map` method:
+
+```swift
+let stringsArray = moneyArray.map({"\($0)€"})
+```
+
+_Rationale:_ Less code leads to less bugs and unnessecary boilerplate code increases the time needed to read and understand the code.
+
+#### Multiple Optional Binding
+
+Multiple Optional Binding is possible since Swift 1.2 and is recommended to avoid the "pyramid of doom".
+
+Instead of:
+
+```swift
+if let widget = widget {
+  if let url = options.url {
+    if let host = options.host {
+      // widget, url and host are all non-optionals
+    }
+  }
+}
+```
+
+use:
+
+```swift
+if let widget = widget, url = options.url, host = options.host {
+  // widget, url and host are all non-optionals
+}
+```
+
+_Rationale:_ Multiple nested statements make it harder to follow along the initial intention and unnessecarily blow up methods.
