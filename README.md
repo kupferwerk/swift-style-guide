@@ -282,7 +282,7 @@ _Rationale:_ Operators consist of punctuation characters, which can make them di
 
 #### Don't write Swift as Objective-C with new syntax
 
-Make use of features in swift to reduce boilerplate code.
+Make use of features in Swift to reduce boilerplate code.
 
 For example, to select elements of an array that pass a certain condition, instead of:
 
@@ -342,8 +342,11 @@ if let widget = widget {
 use:
 
 ```swift
-if let widget = widget, url = options.url, host = options.host {
-  // widget, url and host are all non-optionals
+if let 
+    widget = widget, 
+    url = options.url, 
+    host = options.host {
+  	// widget, url and host are all non-optionals
 }
 ```
 
