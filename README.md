@@ -300,7 +300,7 @@ If we left out the word ```at``` from the method signature, the reader of the co
 ```swift
 employees.remove(x) // unclear: are we removing x?
 ```
-
+_Rationale:_ Omitting words that add important information about what the function does creates ambiguity especially when the function name can have multiple meanings.
 
 #### Omit needless words
 
@@ -325,7 +325,21 @@ public mutating func remove(member: Element) -> Element?
 views.remove(cancelButton) // clearer
 ```
 
-#### Strive for Fluent Usage
+Looking at the following example (in the perspective of the use site), which words are needed and which words should be left out?
+```swift
+mainView.addChild(sideBar, atPoint: origin)
+```
+The word 'Child' is needed here, because it adds relevant information about the role of the first parameter, it's establishing an hierarchy indicating that the sideBar (of which we know from the type system that it's a UIView) will be a child of the mainView.
+<br>At the second argument we know from the type system that it's going to be a Point so 'atPoint' is only restating type information that the compiler will enforce anyway.
+
+After removing redundant words, the call site looks like this:
+```swift
+mainView.addChild(sideBar, at: origin)
+```
+
+_Rationale:_ Including words that don't add important information increases redundancy and the volume of the code that must be read and understood by other programmers.
+
+#### Strive for fluent usage
 
 Name functions in a way that using them reads like grammatical English phrases, for example:
 
@@ -341,17 +355,17 @@ Note: It is acceptable for fluency to degrade after the first or second argument
 AudioUnit.instantiate(with: description, options: [.inProcess], completionHandler: stopProgressBar)
 ```
 
-_Rationale:_ Designing functions to read like grammatical English sentences at the use site drastically reduces the time to understand the meaning of the code and eliminates the need for describing comments.
+_Rationale:_ Designing functions to read like grammatical English sentences at the use site drastically reduces the time needed to understand the meaning of the code and eliminates the need for describing comments.
 
 #### Name functions according to their side-effects
 
-Functions without side-effects should read as noun phrases, like:
+Functions without side-effects should read as noun phrases where the <b>noun describes the returned result</b>, like:
 ```swift
 origin.distance(to: target)
 element.successor()
 controller.managedSubviews()
 ```
-Functions with side-effects should read as imperative verb phrases, like:
+Functions with side-effects should read as imperative verb phrases where the <b>verb describes the side effect</b>, like:
 ```swift
 print(description)
 names.sort()
@@ -367,6 +381,8 @@ Name mutating/nonmutating method pairs consistently. For example when an operati
 | `results.reverse()`  | `results.reversed()`|
 | `dataSource.append(item)` | `dataSource.appending(item)` |
 
+_Rationale:_ Designing function names that indicate side effects raises the awareness of the user that the function may mutate the receiver or affect the application state in another way that may not be obvious otherwise.
+
 #### Name Booleans as assertions
 
 Using a method returning a `Bool` or a property of type `Bool` should read as an assertion about the receiver, like:
@@ -375,6 +391,15 @@ dataSource.isEmpty
 name.contains(searchTerm)
 gameObject.hasCollider
 ```
+
+It is important to avoid negated assertions that may lead to double negatives when used in an if statement, like:
+```swift
+if !gameObject.hasNoCollider { ... } // pure chaos
+```
+
+_Rationale:_ Assertions strongly indicate that the returned value of a function or property is of type Bool for the reader of the code.
+Furthermore, following the rule that functions should read as grammatically correct phrases, naming Booleans as assertions creates this effects when appended to a receiver.
+
 #### Name Protocols according to what they describe
 
 Protocols that <b>describe what something is</b> should read as nouns, e.g. `Collection`, `GameStateObserver`
@@ -383,7 +408,7 @@ Protocols that <b>describe a capability</b> should be named using the suffixes '
 
 #### Parameters
 
-Choose these names to make documentation easy to read. For example, these names make documentation read naturally:
+Choose parameter names to make documentation easy to read. For example, these names make documentation read naturally:
 ```swift
 // Return an `Array` containing the elements of `self`
 // that satisfy `predicate`.
@@ -392,7 +417,7 @@ func filter(_ predicate: (Element) -> Bool) -> [Generator.Element]
 // Replace the given `subRange` of elements with `newElements`.
 mutating func replaceRange(_ subRange: Range, with newElements: [E])
 ```
-_Rationale:_ Even though paramater names do not appear at the point of use, they play an important explanatory role.
+_Rationale:_ Even though parameter names do not appear at the point of use, they play an important explanatory role.
 
 ##### Use default parameters to simplify common uses
 
@@ -400,14 +425,21 @@ Any parameter with a single commonly-used value is a candidate for a default.
 
 For example in a custom view controller transition that usually has the same animation duration application-wide, default this parameter:
 ```swift
-func present(viewController: UIViewController, withDuration duration: NSTimeInterval = 0.3)
+extension UIViewController {
+  func magicallyPresent(viewController: UIViewController,
+        withDuration duration: NSTimeInterval = MagicTransition.defaultDuration)  
+}
+
+_Rationale:_
 
 // Usages
-present(viewController) // using the application default
-present(viewController, withDuration: 0.4) // setting a custom animation duration
+magicallyPresent(viewController) // using the default (MagicTransition.defaultDuration)
+magicallyPresent(viewController, withDuration: 0.4) // setting a custom animation duration
 ```
+_Note: In order to use a member as the default value, it has to be declared as a static property._
 
-Default arguments are generally preferable to the use of method families, because they impose a lower cognitive burden to anyone trying to understand the API.
+<br>
+Furthermore replacing larger method families with the use of default parameters simplifies usage and reduces the complexity of the API.
 
 For example:
 ```swift
@@ -432,3 +464,5 @@ extension String {
                       range: Range, locale: Locale) -> Ordering
 }
 ```
+
+_Rationale:_ Default arguments are generally preferable to the use of method families, because they impose a lower cognitive burden to anyone trying to understand the API.
