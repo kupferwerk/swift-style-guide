@@ -161,11 +161,24 @@ extension History {
 
 _Rationale:_ This makes the capturing semantics of `self` stand out more in closures, and avoids verbosity elsewhere.
 
-#### Prefer structs over classes
+#### Choosing between structs and classes
 
-Unless you require functionality that can only be provided by a class (like identity or deinitializers), implement a struct instead.
+As a general guideline, consider creating a structure when one or more of these conditions apply:
+* The structure’s primary purpose is to encapsulate a few relatively simple data values.
+* It is reasonable to expect that the encapsulated values will be copied rather than referenced when you assign or pass around an instance of that structure.
+* Any properties stored by the structure are themselves value types, which would also be expected to be copied rather than referenced.
+* The structure does not need to inherit properties or behavior from another existing type.
 
-Note that inheritance is (by itself) usually _not_ a good reason to use classes, because polymorphism can be provided by protocols, and implementation reuse can be provided through composition.
+Examples of good candidates for structures include:
+* The size of a geometric shape, perhaps encapsulating a width property and a height property, both of type Double.
+* A way to refer to ranges within a series, perhaps encapsulating a start property and a length property, both of type Int.
+* A point in a 3D coordinate system, perhaps encapsulating x, y and z properties, each of type Double.
+
+In all other cases, define a class, and create instances of that class to be managed and passed by reference. In practice, this means that most custom data constructs should be classes, not structures.
+
+For more details look at: https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Properties.html
+
+Note that inheritance is (by itself) is not always a good reason to use classes, because polymorphism can be provided by protocols, and implementation reuse can be provided through default implementations and overriding.
 
 For example, this class hierarchy:
 
@@ -200,10 +213,14 @@ could be refactored into these definitions:
 ```swift
 protocol Vehicle {
     var numberOfWheels: Int { get }
+    
+    func maximumTotalTirePressure(vehicle: Vehicle, pressurePerWheel: Float) -> Float
 }
 
-func maximumTotalTirePressure(vehicle: Vehicle, pressurePerWheel: Float) -> Float {
-    return pressurePerWheel * vehicle.numberOfWheels
+extension Vehicle {
+    func maximumTotalTirePressure(vehicle: Vehicle, pressurePerWheel: Float) -> Float {
+        return pressurePerWheel * vehicle.numberOfWheels
+    }
 }
 
 struct Bicycle: Vehicle {
@@ -215,7 +232,10 @@ struct Car: Vehicle {
 }
 ```
 
-_Rationale:_ Value types are simpler, easier to reason about, and behave as expected with the `let` keyword.
+_Rationale:_ This may seem simliar to base classes or even abstract classes but there are a few key differences:
+* Value types can be simpler, easier to reason about, and behave as expected with the `let` keyword.
+* Types can conform to more than one protocol, they can be decorated with default behaviors from multiple protocols. 
+* Protocols can be adopted by classes, structs and enums. Base classes and inheritance are restricted to class types.
 
 #### Make classes `final` by default
 
