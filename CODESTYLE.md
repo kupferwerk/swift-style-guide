@@ -24,9 +24,11 @@ Accordingly, whenever you see a `var` identifier being used, assume that it will
 
 #### Avoid Using Force-Unwrapping of Optionals
 
-If you have an identifier `foo` of type `FooType?` or `FooType!`, don't force-unwrap it to get to the underlying value (`foo!`) if possible.
+If you have an identifier `foo` of type `Optional<FooType>`, don't force-unwrap it to get to the underlying value (`foo!`) if possible.
 
-Instead, prefer this:
+Instead, prefer one of the two following approaches:
+
+- Use if-let when the most of your code is executed *outside* your if-clause
 
 ```swift
 if let foo = foo {
@@ -35,12 +37,30 @@ if let foo = foo {
     // If appropriate, handle the case where the optional is nil
 }
 ```
+- Use guard-let when most of your code would be executed *inside* your if-clause
+
+```swift
+guard let foo = foo else {
+	// handle ase where optional is nil
+}
+
+// use unwrapped `foo` value here
+```
+
+Generally perfer using guard-let to if-let. Only use if-let if you have to.
 
 Alternatively, you might want to use Swift's Optional Chaining in some of these cases, such as:
 
 ```swift
 // Call the function if `foo` is not nil. If `foo` is nil, ignore we ever tried to make the call
 foo?.callSomethingIfFooIsNotNil()
+```
+
+or Swift's default values for optionals such as:
+
+```swift
+// use value of foo if it is not nil use value after ?? if foo is nil
+let x = foo ?? bar
 ```
 
 _Rationale:_ Explicit `if let`-binding of optionals results in safer code. Force unwrapping is more prone to lead to runtime crashes.
@@ -355,4 +375,12 @@ if let widget = widget, url = options.url, host = options.host {
 }
 ```
 
+or:
+
+```swift
+guard let widget = widget, url = options.url, host = options.host else {
+ // execute code if at least one of the optionals is nil
+}
+ // widget, url and host are all non-optionals
+```
 _Rationale:_ Multiple nested statements make it harder to follow along the initial intention and unnessecarily blow up methods.
