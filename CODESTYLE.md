@@ -375,4 +375,12 @@ if let widget = widget, url = options.url, host = options.host {
 }
 ```
 
+or:
+
+```swift
+guard let widget = widget, url = options.url, host = options.host else {
+ // execute code if at least one of the optionals is nil
+}
+ // widget, url and host are all non-optionals
+```
 _Rationale:_ Multiple nested statements make it harder to follow along the initial intention and unnessecarily blow up methods.
