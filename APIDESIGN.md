@@ -29,7 +29,7 @@ In particular, words that merely repeat type information can be omitted.
 In the following example the word ```Element``` adds no additional information when using the method.
 
 ```swift
-public mutating func removeElement(member: Element) -> Element?
+public mutating func removeElement(_ member: Element) -> Element?
 
 // usage
 views.removeElement(cancelButton)
@@ -38,7 +38,7 @@ views.removeElement(cancelButton)
 Instead write:
 
 ```swift
-public mutating func remove(member: Element) -> Element?
+public mutating func remove(_ member: Element) -> Element?
 
 // Usage
 views.remove(cancelButton) // clearer
