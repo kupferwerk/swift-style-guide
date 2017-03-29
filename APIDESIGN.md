@@ -23,7 +23,7 @@ _Rationale:_ Omitting words that add important information about what the functi
 
 #### Omit needless words
 
-On the other side, leave out words that doesn't convey salient information at the use site.
+On the other side, leave out words that don't convey salient information at the use site.
 In particular, words that merely repeat type information can be omitted.
 
 In the following example the word ```Element``` adds no additional information when using the method.
