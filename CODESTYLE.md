@@ -176,9 +176,9 @@ Examples of good candidates for structures include:
 
 In all other cases, define a class, and create instances of that class to be managed and passed by reference. In practice, this means that most custom data constructs should be classes, not structures.
 
-For more details look at: https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Properties.html
+Note that inheritance is (by itself) usually _not_ a good reason to use classes, because polymorphism can be provided by protocols, and implementation reuse can be provided through composition.
 
-Note that inheritance is (by itself) is not always a good reason to use classes, because polymorphism can be provided by protocols, and implementation reuse can be provided through default implementations and overriding.
+For more details look at: https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Properties.html
 
 For example, this class hierarchy:
 
