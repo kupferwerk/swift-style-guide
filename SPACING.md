@@ -22,19 +22,33 @@ Always use exactly __one__ empty line above and below classes and between every 
 //  ViewController.swift
 //  Swift Styleguide
 //
-//  Created by Developer on 02.10.17.
+//  Created by Developer on 10.11.17.
 //  Copyright © 2017 intive_Kupferwerk. All rights reserved.
 //
 
 class ViewController {
 
-    // ...
+    // properties
 
     func lastMethodInThisScope() {
-        // method stuff
+        // code
     }
 }
 
+```
+
+#### Property Observers & Getters/Setters
+- use __no__ blank lines at all
+
+```swift
+var name: String {
+    willSet {
+        loadViewIfNeeded()
+    }
+    didSet {
+        nameLabel?.text = name
+    }
+}
 ```
 
 #### Inside Protocol Definitions (and Enums or Structs without implementations)
@@ -164,17 +178,34 @@ case .staging:
 ```swift
 import Framework
 
+// MARK: SomeDelegate
+
+protocol SomeDelegate {
+    func one()
+    func two()
+}
+
+// MARK: - SomeClass
+
 class SomeClass {
 
     var a: TypeA
     var b: TypeB
 
-    var c: TypeC {
+    private let c: TypeC
+    private let d: TypeD
+
+    private var e: TypeE {
         willSet {
             // code
         }
         didSet {
-            // code
+          switch e {
+          case a:
+              // one line of code
+          case b:
+              // one line of code
+          }
         }
     }
 
@@ -182,133 +213,27 @@ class SomeClass {
 
     func method() {
         guard condition else {
-          // code
-          return
+            // code
+            return
         }
 
         do {
-          // code
+            // code
         } catch let error {
-          // code  
+            // code  
         }
 
         switch thing {
 
           case a:
-            // code
+              // multiple lines of code
 
           case b:
-            // code
+              // multiple lines of code
 
           default:
-            // code
+              // code
         }
-    }
-}
-```
-
-#### An Example Class
-```swift
-//
-//  BasketViewController.swift
-//  Esprit
-//
-//  Created by Marco Oliva on 25.07.17.
-//  Copyright © 2017 intive_Kupferwerk. All rights reserved.
-//
-
-import Foundation
-import UIKit
-
-class BasketViewController {
-
-    fileprivate struct EditingDataKeys {
-        static let productData = "productData"
-        static let colorSelection = "colorSelection"
-    }
-
-    fileprivate enum State {
-
-        /// An error occured while loading the basket.
-        case error
-
-        /// A loading operation that is related to the whole view is in progress (like loading the basket or authenticating a user).
-        case loading
-
-        /// The basket does not contain any products.
-        case emptyBasket
-
-        /// The basket contains products and should be displayed.
-        case filledBasket
-
-        /// There is currently no logged in user.
-        case notAuthenticated
-    }
-
-    fileprivate lazy var productsView: BasketProductsView = {
-        let productsView: BasketProductsView = .fromNib()
-        productsView.delegate = self
-        return productsView
-    }()
-
-    /// The current state of the `BasketViewController`.
-    /// When mutated, the view automatically updates to display the new state.
-    fileprivate var state: State = .loading {
-        didSet {
-            updateUserInterface(for: state)
-        }
-    }
-
-    // MARK: - View Lifecycle
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(false, animated: false)
-
-        if LoginService.shared.state != .loggedOut {
-           loadBasket()
-        } else {
-           state = .notAuthenticated
-        }
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        trackPageView()
-    }
-}
-
-// MARK: - Basket Updates
-
-extension BasketViewController {
-
-    /// Fetches the basket from the backend.
-    fileprivate func loadBasket() {
-        state = .loading
-
-        BasketService.shared.getBasket { [weak self] (_, basket, invalidToken) in
-            guard !invalidToken else {
-                self?.basketProcessFailedDueToInvalidToken()
-                return
-            }
-
-            self?.updateBasket(to: basket)
-        }
-    }
-
-    /// Updates the display of basket items and performs operations depending on a new basket state.
-    /// Note: This method does _not refresh_ or _reload_ the basket from the backend,
-    /// but rather should be called to update the local state.
-    ///
-    /// - Parameter basket: The updated state of the basket.
-    private func updateBasket(to basket: NativeBasket?) {
-        if let basket = basket {
-            state = basket.items.isEmpty ? .emptyBasket : .filledBasket
-        } else {
-            state = .error
-        }
-
-        productsView.basket = basket
     }
 }
 ```
