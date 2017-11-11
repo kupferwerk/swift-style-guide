@@ -160,6 +160,53 @@ case .staging:
 }
 ```
 
+#### Overview
+```swift
+import Framework
+
+class SomeClass {
+
+    var a: TypeA
+    var b: TypeB
+
+    var c: TypeC {
+        willSet {
+            // code
+        }
+        didSet {
+            // code
+        }
+    }
+
+    // MARK: - Topic
+
+    func method() {
+        guard condition else {
+          // code
+          return
+        }
+
+        do {
+          // code
+        } catch let error {
+          // code  
+        }
+
+        switch thing {
+
+          case a:
+            // code
+
+          case b:
+            // code
+
+          default:
+            // code
+        }
+    }
+}
+```
+
 #### An Example Class
 ```swift
 //
@@ -172,9 +219,8 @@ case .staging:
 
 import Foundation
 import UIKit
-import XCGLogger
 
-class BasketViewController: EspritViewController, AppFeatures {
+class BasketViewController {
 
     fileprivate struct EditingDataKeys {
         static let productData = "productData"
@@ -228,7 +274,6 @@ class BasketViewController: EspritViewController, AppFeatures {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
         trackPageView()
     }
 }
