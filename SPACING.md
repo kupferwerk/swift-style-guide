@@ -51,6 +51,25 @@ var name: String {
 }
 ```
 
+#### Overridden Functions
+- include __one__ blank line _after_ calling the super method if you add _multiple_ lines to your method
+- include __no__ blank line _after_ calling the super method if you only add _one_ line
+
+```swift
+override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+
+    if let parent = parent {
+      // code
+    }    
+}
+
+override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    trackPageView()
+}
+```
+
 #### Inside Protocol Definitions (and Enums or Structs without implementations)
 
 - __one__ blank line between the protocol definition and its first property/method, as well as between every property/method signature and (the documentation of) the following one
@@ -226,14 +245,23 @@ class SomeClass {
         switch thing {
 
           case a:
-              // multiple lines of code
+              // multiple lines
+              // of code
 
           case b:
-              // multiple lines of code
+              // multiple lines
+              // of code
 
           default:
               // code
         }
     }
+}
+
+// MARK: Delegate
+
+extension SomeClass: Delegate {
+
+    // code
 }
 ```
