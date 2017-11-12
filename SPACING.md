@@ -4,7 +4,7 @@ When and where to use spaces and empty lines.
 
  _Note: when this guide says __one__ blank line then __exactly one__ blank line is meant!_
 
-#### Closing Scopes
+### Closing Scopes
 Simply __never__ include any whitespace before closing a scope and always __one__ blank line afterwards.
 ```swift
         return x
@@ -37,6 +37,8 @@ class ViewController {
 
 ```
 
+### Properties
+
 - cluster variables in groups (static, class, public, internal, private, fileprivate, computed, observed, etc.) and separate them by __one__ blank line
 - always surround properties with closures (e.g. observers or lazy) or documentation with __one__ blank line
 
@@ -61,7 +63,7 @@ struct SomeResource: Resource {
 }
 ```
 
-#### Property Observers & Getters/Setters
+### Property Observers & Getters/Setters
 - use __no__ blank lines at all
 
 ```swift
@@ -75,7 +77,7 @@ var name: String {
 }
 ```
 
-#### Overridden Functions
+### Overridden Functions
 - include __one__ blank line _after_ calling the super method if you add _multiple_ lines to your method
 - include __no__ blank line _after_ calling the super method if you only add _one_ line
 
@@ -94,7 +96,7 @@ override func viewDidAppear(_ animated: Bool) {
 }
 ```
 
-#### Inside Protocol Definitions (and Enums or Structs without implementations)
+### Inside Protocol Definitions (and Enums or Structs without implementations)
 
 - __one__ blank line between the protocol definition and its first property/method, as well as between every property/method signature and (the documentation of) the following one
 - __one__ space between a property's type and every used item in `{ get set }`, `{ get }` or `{ set }`
@@ -152,7 +154,7 @@ class BasketViewController: UIViewController {
 ```
 
 
-#### Marks
+### Marks
 Marks should always be surrounded by __exactly one__ blank line above and below.
 
 ```swift
@@ -169,7 +171,7 @@ extension ViewController: SomeDelegate {
 }
 ```
 
-#### Inside Methods and other Blocks of Code
+### Inside Methods and other Blocks of Code
 - __do not__ start with a blank line (exceptions may exist where adding __one__ blank line at the beginning might increase readability)
 - __one__ blank line after a potential `guard` statement or between multiple ones
 - __one__ blank line above and below an `if` statement (except it's the first statement in this method)
@@ -196,7 +198,7 @@ func doStuff(with item: Item) {
 }
 ```
 
-#### Switch Statements
+### Switch Statements
 - include __one__ blank line before every case
 
 ```swift
