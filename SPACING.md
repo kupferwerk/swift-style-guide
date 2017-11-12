@@ -37,6 +37,30 @@ class ViewController {
 
 ```
 
+- cluster variables in groups (static, class, public, internal, private, fileprivate, computed, observed, etc.) and separate them by __one__ blank line
+- always surround properties with closures (e.g. observers or lazy) or documentation with __one__ blank line
+
+```swift
+struct SomeResource: Resource {
+
+    static let path = "/resource"
+
+    var internalPropertyOne: String
+    var internalPropertyTwo: String
+
+    var coolDictionary: [String: String] {
+        return ["key": "value"]
+    }
+
+    lazy var something: Type = {
+        return Type(dict: coolDictionary)
+    }()
+
+    private var someNumber: Int
+    private var isSomething: Bool
+}
+```
+
 #### Property Observers & Getters/Setters
 - use __no__ blank lines at all
 
@@ -104,6 +128,26 @@ struct Address {
 enum Side {
     case left
     case right
+}
+```
+
+__Exception:__ Structs or enums declared _inside_ classes may occupy too much vertical space so that the blank lines could be omitted (however one might argue that such nested types should be declared in a separate extension anyway)
+
+```swift
+class BasketViewController: UIViewController {
+
+    fileprivate enum State {
+        /// An error occured while loading the basket.
+        case error
+        /// A loading operation that is related to the whole view is in progress.
+        case loading
+        /// The basket does not contain any products.
+        case emptyBasket
+        /// The basket contains products and should be displayed.
+        case filledBasket
+        /// There is currently no logged in user.
+        case notAuthenticated
+    }
 }
 ```
 
@@ -183,7 +227,7 @@ var state: State {
 }
 ```
 
-_Exception:_ `switch` statements with a low number of cases and only one line of code pre case may be concentrated.
+__Exception:__ `switch` statements with a low number of cases and only one line of code per case may be concentrated.
 ```swift
 switch self {
 case .production:
@@ -193,14 +237,18 @@ case .staging:
 }
 ```
 
-#### Overview
+### Overview
 ```swift
 import Framework
 
 // MARK: SomeDelegate
 
 protocol SomeDelegate {
+
+    /// Documentation
     func one()
+
+    /// Documentation
     func two()
 }
 
@@ -214,12 +262,12 @@ class SomeClass {
     private let c: TypeC
     private let d: TypeD
 
-    private var e: TypeE {
+    private var state: State {
         willSet {
             // code
         }
         didSet {
-          switch e {
+          switch state {
           case a:
               // one line of code
           case b:
@@ -230,7 +278,9 @@ class SomeClass {
 
     // MARK: - Topic
 
-    func method() {
+    override func method(with item: Item) {
+        super.method()
+
         guard condition else {
             // code
             return
@@ -241,6 +291,10 @@ class SomeClass {
         } catch let error {
             // code  
         }
+
+        // code
+        // code
+        // code
 
         switch thing {
 
