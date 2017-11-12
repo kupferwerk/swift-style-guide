@@ -1,5 +1,5 @@
 # Spacing Style Guide
-When and where to use spaces and empty lines.
+When and where to use spaces and blank lines.
 
 ### Rational
 (skip if bored)
