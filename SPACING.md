@@ -1,8 +1,14 @@
 # Spacing Style Guide
 When and where to use spaces and empty lines.
 
+### Rational
+(skip if bored)
 
- _Note: when this guide says __one__ blank line then __exactly one__ blank line is meant!_
+Humans primarily process and _make sense_ of data when consumed visually. Consistent spacing - and format in general - drastically lowers the cognitive load when reading code and decreases the time needed to understand it. We should consent to a single fixed style of formatting Swift files as part of a journey to better and more readable code. Hence, please enforce these guidelines when reviewing pull requests.
+
+__Note:__ All of the following suggestions are general guidelines. They should be subject to discussions and may be ignored if a convincing reason exists.
+
+---
 
 ### Closing Scopes
 Simply __never__ include any whitespace before closing a scope and always __one__ blank line afterwards.
@@ -175,7 +181,7 @@ extension ViewController: SomeDelegate {
 - __do not__ start with a blank line (exceptions may exist where adding __one__ blank line at the beginning might increase readability)
 - __one__ blank line after a potential `guard` statement or between multiple ones
 - __one__ blank line above and below an `if` statement (except it's the first statement in this method)
-- if not eligible to be extracted in a single method, try to __group statements__ that share a topic by not including any whitespace between them and surround the groups with exactly __one__ blank line
+- if not eligible to be extracted in a single method, try to __group statements__ that share a logical topic by not including any whitespace between them and surround the groups with exactly __one__ blank line
 
 ```swift
 func doStuff(with item: Item) {
