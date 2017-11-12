@@ -45,8 +45,8 @@ class ViewController {
 
 ### Properties
 
-- cluster variables in groups (static, class, public, internal, private, fileprivate, computed, observed, etc.) and separate them by __one__ blank line
-- always surround properties with closures (e.g. observers or lazy) or documentation with __one__ blank line
+- cluster variables in groups (static, class, public, internal, private, fileprivate, computed, observed, etc.) and separate them with __one__ blank line
+- always surround properties that have closures (observers, lazy, etc.) or documentation with __one__ blank line
 
 ```swift
 struct SomeResource: Resource {
@@ -66,11 +66,17 @@ struct SomeResource: Resource {
 
     private var someNumber: Int
     private var isSomething: Bool
+
+    /// Documentation
+    private var documentedProperty: String
+
+    /// Documentation
+    private var anotherDocumentedProperty: String
 }
 ```
 
 ### Property Observers & Getters/Setters
-- use __no__ blank lines at all
+- use __no__ blank lines at all between closures
 
 ```swift
 var name: String {
