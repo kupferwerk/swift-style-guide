@@ -1,0 +1,32 @@
+line_length:
+- 150 # warning
+- 200 # error
+
+identifier_name:
+  min_length:
+    warning: 2 # allow identifiers with only two characters, e.g. "id"
+
+opt_in_rules:
+- array_init
+- attributes
+- closure_end_indentation
+- closure_spacing
+- conditional_returns_on_newline
+- contains_over_first_not_nil
+- empty_count
+- explicit_init
+- fatal_error_message
+- first_where
+- implicit_return
+- joined_default_parameter
+- overridden_super_call
+- redundant_nil_coalescing
+- sorted_first_last
+- switch_case_on_newline
+
+# Use the excluded statement for code not confirming to the lint rules (e.g. for generated code)
+#excluded:
+#- Core/Shared/Appearance/Generated
+
+disabled_rules:
+- nesting # Currently can't be adjusted. So would already complain for 2nd level nesting – we'd like to only complain for deeping nesting

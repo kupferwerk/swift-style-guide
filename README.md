@@ -15,3 +15,4 @@ then open a pull request. :zap:
 
 #### 1. [Code Style](CODESTYLE.md)
 #### 2. [API Design](APIDESIGN.md)
+#### 3. [SwiftLint Rules](SWIFTLINT.md)
